@@ -43,17 +43,17 @@ client.on(Events.MessageCreate, async (message) => {
         if (!chats.has(message.channel.id)) {
             chats.set(message.channel.id, await model.startChat({}));
         }
-        let format = /"((?:.|\n)*)"/g;
+        let format = /"((?:.|\n)*)"/g; // Gemini response format
         let messageToGemini = message.author.displayName + ": \"" + message.content + "\"";
-        console.log(messageToGemini);
-        let result = await chats.get(message.channel.id).sendMessage(messageToGemini);
-        let reply = result.response.text();
-        let finalReply = format.exec(reply);
-        console.log(reply);
-        message.reply(finalReply.at(1));
+        console.log(messageToGemini); // Log the message to gemini
+        let result = await chats.get(message.channel.id).sendMessage(messageToGemini); // Send message
+        let reply = result.response.text(); // Get response
+        let finalReply = format.exec(reply); // Parse response
+        console.log(reply); // Log response
+        message.reply(finalReply.at(1)); // Send response
     } catch (error) {
         console.error(error);
-        message.reply("CONNECTION LOST... PLEASE TRY AGAIN.");
+        message.reply("CONNECTION LOST... PLEASE TRY AGAIN."); // Send error
     }
 });
 
